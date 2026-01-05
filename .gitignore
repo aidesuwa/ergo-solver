@@ -1,0 +1,10 @@
+config.json
+config.json.tmp
+.env
+.env.*
+*.log
+*.tmp
+ergo-solver
+ergo-solver.exe
+ergo-solver
+ergo-proxy
