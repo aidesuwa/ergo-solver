@@ -109,6 +109,52 @@ ergo-solver help
 └─────────────┘    └─────────────┘    └─────────────┘
 ```
 
+## Example Output
+
+<details>
+<summary>📋 Click to see example run output</summary>
+
+```
+go run . solve --config config.json --auto
+2026-01-05T22:40:02-05:00 INF starting: count=1 dryRun=false autoLoop=true
+2026-01-05T22:40:08-05:00 INF config.json updated (cookie refreshed)
+2026-01-05T22:40:08-05:00 INF logged in: User(xxxxx)
+2026-01-05T22:40:08-05:00 INF site: https://target-site.example.com
+2026-01-05T22:40:09-05:00 INF daily quota: remaining=3 completed=2 limit=5
+2026-01-05T22:40:09-05:00 INF PoW needs refresh, solving...
+2026-01-05T22:40:09-05:00 INF PoW found nonce=17350 (elapsed 10ms)
+2026-01-05T22:40:10-05:00 INF PoW verified
+2026-01-05T22:40:10-05:00 INF AI using custom endpoint: https://your-api-endpoint.com/v1
+2026-01-05T22:40:10-05:00 INF fetching puzzle: index=1/1
+2026-01-05T22:40:10-05:00 INF puzzle fetched: puzzleId=f0df648a5ebc1af83c89278029df14d2, remainingAttempts=2, dailyRemaining=3/5
+
+┌─────────────────────────────────────────┐
+│      🤖 AI Agent Starting                │
+│      📦 Model: gpt-5.2-codex           │
+└─────────────────────────────────────────┘
+
+💭 AI Reasoning:
+──────────────────────────────────────────────────
+Step 1: Identify two 4x5 blocks separated by a zero row; colors are {2,3} in top, {5,3} in bottom. Step 2: Compare all training pairs and note output is 4x5 with 3s only where both corresponding cells in top and bottom are 3; all other positions become 7. Step 3: Apply rule to test input by intersecting positions of value 3 in both blocks, fill those with 3 and the rest with 7.
+──────────────────────────────────────────────────
+📊 Confidence: 86%
+⠼ 🔄 AI self-verifying... [30s]  🔍 Verification: From training, output is 3 only where the corresponding cells in the top 4x5 block and bottom 4x5 block are both 3; otherwise 7. Applying this to the test input yields [[7,3,7,7,7],[7,7,3,7,7],[7,7,3,3,3],[7,7,7,7,3]], which matches the proposed answer.
+✅ AI self-verification passed!
+✨ Answer generated!
+2026-01-05T22:41:29-05:00 INF AI solved (elapsed 1m12.08s)
+2026-01-05T22:41:30-05:00 INF PoW valid, no refresh needed
+2026-01-05T22:41:30-05:00 INF config.json updated (cookie refreshed)
+2026-01-05T22:41:30-05:00 INF submitting: puzzleId=f0df648a5ebc1af83c89278029df14d2
+2026-01-05T22:41:30-05:00 INF submit response: 恭喜！你成功解开了谜题！
+2026-01-05T22:41:30-05:00 INF correct: +10 points, balance=60, dailyRemaining=2/5
+2026-01-05T22:41:30-05:00 INF auto mode: sleeping 1m37s (remaining 2)...
+2026-01-05T22:43:18-05:00 INF fetching puzzle: index=2/2
+2026-01-05T22:43:19-05:00 INF config.json updated (cookie refreshed)
+2026-01-05T22:43:19-05:00 INF puzzle fetched: puzzleId=d3fc76f87e23f6ce945bb01adad8d3df, remainingAttempts=2, dailyRemaining=2/5
+```
+
+</details>
+
 ## Development
 
 ```bash

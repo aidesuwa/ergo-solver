@@ -6,5 +6,3 @@ config.json.tmp
 *.tmp
 ergo-solver
 ergo-solver.exe
-ergo-solver
-ergo-proxy
