@@ -14,8 +14,22 @@ env:
 
 jobs:
   build:
-    name: Build
+    name: Build ${{ matrix.goos }}-${{ matrix.goarch }}
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - goos: linux
+            goarch: amd64
+          - goos: linux
+            goarch: arm64
+          - goos: darwin
+            goarch: amd64
+          - goos: darwin
+            goarch: arm64
+          - goos: windows
+            goarch: amd64
+            ext: .exe
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -27,13 +41,17 @@ jobs:
           cache: true
 
       - name: Build
-        run: go build -v -o ${{ env.BINARY_NAME }} .
+        env:
+          GOOS: ${{ matrix.goos }}
+          GOARCH: ${{ matrix.goarch }}
+          CGO_ENABLED: 0
+        run: go build -v -o ${{ env.BINARY_NAME }}${{ matrix.ext }} .
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ env.BINARY_NAME }}-linux-amd64
-          path: ${{ env.BINARY_NAME }}
+          name: ${{ env.BINARY_NAME }}-${{ matrix.goos }}-${{ matrix.goarch }}
+          path: ${{ env.BINARY_NAME }}${{ matrix.ext }}
 
   release:
     name: Release
