@@ -153,7 +153,16 @@ func runSolve(ctx context.Context, log *logger, args []string) error {
 				return nil
 			}
 			if isAuthError(err) {
-				return errAuthRequired
+				log.warn("auth expired, re-authenticating...")
+				cfg, err = ensureLoginInteractive(ctx, cfg, configPath, log)
+				if err != nil {
+					return err
+				}
+				client, err = newAPIClient(cfg)
+				if err != nil {
+					return err
+				}
+				continue
 			}
 			return err
 		}
@@ -200,7 +209,16 @@ func runSolve(ctx context.Context, log *logger, args []string) error {
 		sub, err := submitWithRetry(ctx, client, log, pNew.Puzzle.ID, answer)
 		if err != nil {
 			if isAuthError(err) {
-				return errAuthRequired
+				log.warn("auth expired, re-authenticating...")
+				cfg, err = ensureLoginInteractive(ctx, cfg, configPath, log)
+				if err != nil {
+					return err
+				}
+				client, err = newAPIClient(cfg)
+				if err != nil {
+					return err
+				}
+				continue
 			}
 			return err
 		}
